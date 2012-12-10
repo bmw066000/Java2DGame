@@ -1,4 +1,4 @@
-package com.bwright.gane;
+package com.bwright.game.gfx;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
