@@ -11,6 +11,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import com.bwright.game.gfx.Colors;
+import com.bwright.game.gfx.Font;
 import com.bwright.game.gfx.Screen;
 import com.bwright.game.gfx.SpriteSheet;
 
@@ -156,6 +157,9 @@ public class Game extends Canvas implements Runnable {
 				screen.render(x << 3, y << 3, 0, Colors.get(555, 505, 055, 550), flipX, flipY);
 			}
 		}
+
+		String msg = "Hello World! 0157";
+		Font.render(msg, screen, screen.xOffset + screen.width / 2 - (msg.length() * 8 / 2), screen.yOffset + screen.height / 2, Colors.get(-1, -1, -1, 000));
 
 		for (int y = 0; y < screen.height; y++) {
 			for (int x = 0; x < screen.width; x++) {
