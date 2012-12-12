@@ -144,6 +144,7 @@ public class Game extends Canvas implements Runnable {
 			createBufferStrategy(3);
 			return;
 		}
+		screen.clear();
 
 		int xOffset = player.x - (screen.width / 2);
 		int yOffset = player.y - (screen.height / 2);
