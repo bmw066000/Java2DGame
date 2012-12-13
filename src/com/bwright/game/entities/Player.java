@@ -12,7 +12,7 @@ public class Player extends Mob {
 	private int scale = 1;
 
 	public Player(Level level, int x, int y, InputHandler input) {
-		super(level, "Player", x + 4, y + 4, 1);
+		super(level, "Player", x, y, 1);
 		this.input = input;
 	}
 
