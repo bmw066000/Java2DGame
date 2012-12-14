@@ -52,7 +52,6 @@ public class Game extends Canvas implements Runnable {
 
 		frame.add(this, BorderLayout.CENTER);
 		frame.pack();
-		requestFocus();
 
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
@@ -75,8 +74,8 @@ public class Game extends Canvas implements Runnable {
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
-		level = new Level("/levels/home_dstairs.png");
-		player = new Player(level, 30, 30, input);
+		level = new Level(64, 64);
+		player = new Player(level, 0, 0, input);
 		level.addEntity(player);
 	}
 
