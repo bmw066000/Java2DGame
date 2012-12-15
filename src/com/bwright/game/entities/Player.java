@@ -2,6 +2,7 @@ package com.bwright.game.entities;
 
 import com.bwright.game.InputHandler;
 import com.bwright.game.gfx.Colors;
+import com.bwright.game.gfx.Font;
 import com.bwright.game.gfx.Screen;
 import com.bwright.game.level.Level;
 
@@ -12,10 +13,12 @@ public class Player extends Mob {
 	private int scale = 1;
 	protected boolean isSwimming = false;
 	private int tickCount = 0;
+	private String username;
 
-	public Player(Level level, int x, int y, InputHandler input) {
+	public Player(Level level, int x, int y, InputHandler input, String username) {
 		super(level, "Player", x + 4, y + 4, 1);
 		this.input = input;
+		this.username = username;
 	}
 
 	public void tick() {
@@ -122,6 +125,9 @@ public class Player extends Mob {
 		if (!isSwimming) {
 			screen.render(xOffset + (modifier * flip), yOffset + modifier, xTile + (yTile + 1) * 32, color, flip, scale);
 			screen.render(xOffset + modifier - (modifier * flip), yOffset + modifier, (xTile + 1) + (yTile + 1) * 32, color, flip, scale);
+		}
+		if (username != null) {
+			Font.render(username, screen, xOffset - ((username.length() - 1)/ 2 * 8), yOffset - 10, Colors.get(-1, -1, -1, 555), 1);
 		}
 	}
 
