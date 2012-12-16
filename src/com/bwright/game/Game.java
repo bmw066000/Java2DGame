@@ -12,11 +12,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.bwright.game.entities.Player;
-import com.bwright.game.gfx.Colors;
-import com.bwright.game.gfx.Font;
 import com.bwright.game.gfx.Screen;
 import com.bwright.game.gfx.SpriteSheet;
 import com.bwright.game.level.Level;
+import com.bwright.game.net.GameClient;
+import com.bwright.game.net.GameServer;
 
 public class Game extends Canvas implements Runnable {
 
@@ -40,6 +40,9 @@ public class Game extends Canvas implements Runnable {
 	public InputHandler input;
 	public Level level;
 	public Player player;
+	
+	private GameClient socketClient;
+	private GameServer socketServer;
 
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -79,11 +82,20 @@ public class Game extends Canvas implements Runnable {
 		level = new Level("/levels/water_test_level.png");
 		player = new Player(level, 0, 0, input, JOptionPane.showInputDialog(this, "Please enter a username"));
 		level.addEntity(player);
+		socketClient.sendData("ping".getBytes());
 	}
 
 	public synchronized void start() {
 		running = true;
 		new Thread(this).start();
+		
+		if (JOptionPane.showConfirmDialog(this, "Do you want to run the server") == 0) {
+			socketServer = new GameServer(this);
+			socketServer.start();
+		}
+		
+		socketClient = new GameClient(this, "localhost");
+		socketClient.start();
 	}
 
 	public synchronized void stop() {
@@ -128,7 +140,7 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				System.out.println(ticks + " ticks, " + frames + " frames");
+				frame.setTitle(ticks + " ticks, " + frames + " frames");
 				frames = 0;
 				ticks = 0;
 			}
