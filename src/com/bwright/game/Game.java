@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.bwright.game.entities.Player;
-import com.bwright.game.entities.PlayerMP;
 import com.bwright.game.gfx.Screen;
 import com.bwright.game.gfx.SpriteSheet;
 import com.bwright.game.level.Level;
@@ -82,6 +81,9 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
 		level = new Level("/levels/water_test_level.png");
+//		player = new Player(level, 0, 0, input, JOptionPane.showInputDialog(this, "Please enter a username"));
+//		level.addEntity(player);
+//		socketClient.sendData("ping".getBytes());
 		Packet00Login loginPacket = new Packet00Login(JOptionPane.showInputDialog(this, "Please enter a username"));
 		loginPacket.writeData(socketClient);
 	}

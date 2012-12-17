@@ -14,16 +14,11 @@ public class Player extends Mob {
 	protected boolean isSwimming = false;
 	private int tickCount = 0;
 	private String username;
-	private int unameRenderLen;
 
 	public Player(Level level, int x, int y, InputHandler input, String username) {
 		super(level, "Player", x + 4, y + 4, 1);
 		this.input = input;
 		this.username = username;
-		unameRenderLen = ((username.length() - 1)/ 2 * 8);
-		if (username.length() % 2 == 1) {
-			unameRenderLen = username.length() / 2 * 8 - 4;
-		}
 	}
 
 	public void tick() {
@@ -132,7 +127,7 @@ public class Player extends Mob {
 			screen.render(xOffset + modifier - (modifier * flip), yOffset + modifier, (xTile + 1) + (yTile + 1) * 32, color, flip, scale);
 		}
 		if (username != null) {
-			Font.render(username, screen, xOffset - unameRenderLen, yOffset - 10, Colors.get(-1, -1, -1, 555), 1);
+			Font.render(username, screen, xOffset - ((username.length() - 1)/ 2 * 8), yOffset - 10, Colors.get(-1, -1, -1, 555), 1);
 		}
 	}
 
@@ -162,10 +157,6 @@ public class Player extends Mob {
 			}
 		}
 		return false;
-	}
-	
-	public String getUsername() {
-		return this.username;
 	}
 
 }
