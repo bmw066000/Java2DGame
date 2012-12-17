@@ -62,7 +62,7 @@ public class GameServer extends Thread {
 			System.out.println("[" + address.getHostAddress() + ":" + port + "] " + packet.getUsername() + " has connected...");
 			PlayerMP player = null;
 			if (address.getHostAddress().equalsIgnoreCase("127.0.0.1")) {
-				player = new PlayerMP(game.level, 100, 100, game.input, packet.getUsername(), address, port);
+				player = new PlayerMP(game.level, 100, 100, packet.getUsername(), address, port);
 			} else {
 				player = new PlayerMP(game.level, 100, 100, packet.getUsername(), address, port);
 			}
@@ -74,6 +74,27 @@ public class GameServer extends Thread {
 			break;
 		case DISCONNECT:
 			break;
+		}
+	}
+
+	public void addConnection(PlayerMP player, Packet00Login packet) {
+		boolean alreadyConnected = false;
+		for (PlayerMP p : this.connectedPlayers) {
+			if (player.getUsername().equalsIgnoreCase(p.getUsername())) {
+				if (p.ipAddress == null) {
+					p.ipAddress = player.ipAddress;
+				}
+				if (p.port == -1) {
+					p.port = player.port;
+				}
+				alreadyConnected = true;
+			} else {
+				sendData(packet.getData(), p.ipAddress, p.port);
+			}
+		}
+		if (!alreadyConnected) {
+			this.connectedPlayers.add(player);
+			packet.writeData(this);
 		}
 	}
 
