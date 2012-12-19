@@ -11,6 +11,7 @@ import com.bwright.game.Game;
 import com.bwright.game.entities.PlayerMP;
 import com.bwright.game.net.packets.Packet;
 import com.bwright.game.net.packets.Packet00Login;
+import com.bwright.game.net.packets.Packet01Disconnect;
 import com.bwright.game.net.packets.Packet.PacketTypes;
 
 public class GameClient extends Thread {
@@ -40,7 +41,6 @@ public class GameClient extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
 			this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
 //			String message = new String(packet.getData());
 //			System.out.println("SERVER > " + message);
@@ -64,6 +64,10 @@ public class GameClient extends Thread {
 			game.level.addEntity(player);
 			break;
 		case DISCONNECT:
+			packet = new Packet01Disconnect(data);
+			System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+					+ ((Packet01Disconnect) packet).getUsername() + " has left the world...");
+			game.level.removePlayerMP(((Packet01Disconnect) packet).getUsername());
 			break;
 		}
 	}
